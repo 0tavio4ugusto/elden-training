@@ -94,6 +94,13 @@ function getScaledReps(repsStr, difficulty) {
   }
 }
 
+function parseStepReq(reqStr) {
+  if (reqStr.includes('×')) {
+    return reqStr.split('×')[1].trim();
+  }
+  return reqStr;
+}
+
 // ═══════════════════════════════════════════
 //  NAVIGATION & RENDERING
 // ═══════════════════════════════════════════
@@ -298,12 +305,31 @@ function renderWorkout() {
     for (const ex of section.exercises) {
       const isDone = game.isExerciseDone(workout.id, ex.id, ex.sets);
       const difficulty = game.getDifficulty();
-      const scaledReps = getScaledReps(ex.reps, difficulty);
+      
+      let displayName = ex.name;
+      let displayReps = ex.reps;
+      let displayDetail = ex.detail;
+
+      if (ex.progression) {
+        const prog = PROGRESSIONS.find(p => p.name === ex.progression);
+        if (prog) {
+          const stepIndex = Math.round((difficulty - 1) / 9 * (prog.steps.length - 1));
+          const step = prog.steps[stepIndex];
+          if (step) {
+            displayName = step.name;
+            displayReps = parseStepReq(step.req);
+            displayDetail = `Meta da Skill Tree (${ex.progression})`;
+          }
+        }
+      }
+
+      const scaledReps = ex.progression ? displayReps : getScaledReps(displayReps, difficulty);
+
       html += `<div class="exercise-card ornate-card ${isDone ? 'done' : ''}" id="ex-${ex.id}">
         <div class="exercise-top">
           <div>
-            <div class="exercise-name">${ex.name}</div>
-            ${ex.detail ? `<div class="exercise-detail">${ex.detail}</div>` : ''}
+            <div class="exercise-name">${displayName}</div>
+            ${displayDetail ? `<div class="exercise-detail">${displayDetail}</div>` : ''}
           </div>
           <div class="exercise-meta">
             <div class="exercise-reps">${ex.sets}×${scaledReps}</div>

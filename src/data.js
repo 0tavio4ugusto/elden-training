@@ -60,15 +60,15 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pa-s1', name: 'Parada de mão na parede', detail: 'barriga virada', sets: 2, reps: '20-30s', rest: 45 },
+          { id: 'pa-s1', name: 'Parada de mão na parede', detail: 'barriga virada', sets: 2, reps: '20-30s', rest: 45, progression: 'Handstand' },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pa-c1', name: 'Flexão',           detail: 'ver progressão', sets: 3, reps: '8-12', rest: 60 },
-          { id: 'pa-c2', name: 'Dips',              detail: 'paralela ou banco', sets: 3, reps: '6-10', rest: 60 },
+          { id: 'pa-c1', name: 'Flexão',           detail: 'ver progressão', sets: 3, reps: '8-12', rest: 60, progression: 'Flexão' },
+          { id: 'pa-c2', name: 'Dips',              detail: 'paralela ou banco', sets: 3, reps: '6-10', rest: 60, progression: 'Dips' },
           { id: 'pa-c3', name: 'Pike push-up',      detail: 'ombro', sets: 3, reps: '6-10', rest: 45 },
         ]
       },
@@ -95,14 +95,14 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pla-s1', name: 'Hang ativo',      detail: 'barra', sets: 2, reps: '20-30s', rest: 45 },
+          { id: 'pla-s1', name: 'Hang ativo',      detail: 'barra', sets: 2, reps: '20-30s', rest: 45, progression: 'Pull-up' },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pla-c1', name: 'Pull-up',          detail: 'ver progressão', sets: 3, reps: '4-8', rest: 90 },
+          { id: 'pla-c1', name: 'Pull-up',          detail: 'ver progressão', sets: 3, reps: '4-8', rest: 90, progression: 'Pull-up' },
           { id: 'pla-c2', name: 'Remada invertida',  detail: 'Australian row', sets: 3, reps: '8-12', rest: 60 },
           { id: 'pla-c3', name: 'Chin-up',           detail: 'supinada', sets: 3, reps: 'max', rest: 60 },
         ]
@@ -130,14 +130,14 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'la-s1', name: 'L-sit', detail: 'tucked no chão', sets: 2, reps: '10-20s', rest: 45 },
+          { id: 'la-s1', name: 'L-sit', detail: 'tucked no chão', sets: 2, reps: '10-20s', rest: 45, progression: 'L-sit' },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'la-c1', name: 'Pistol squat progressão', detail: 'com apoio', sets: 3, reps: '5-8 cada', rest: 60 },
+          { id: 'la-c1', name: 'Pistol squat progressão', detail: 'com apoio', sets: 3, reps: '5-8 cada', rest: 60, progression: 'Agachamento' },
           { id: 'la-c2', name: 'Agachamento búlgaro',     detail: 'peso corporal', sets: 3, reps: '8-12 cada', rest: 60 },
         ]
       },
@@ -171,15 +171,15 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pb-s1', name: 'Parada de mão na parede', detail: 'costas virada', sets: 2, reps: '15-25s', rest: 45 },
+          { id: 'pb-s1', name: 'Parada de mão na parede', detail: 'costas virada', sets: 2, reps: '15-25s', rest: 45, progression: 'Handstand' },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pb-c1', name: 'Flexão archer',           detail: 'ou wide', sets: 3, reps: '5-8 cada', rest: 75 },
-          { id: 'pb-c2', name: 'Dips',                     detail: 'paralela', sets: 3, reps: '8-12', rest: 75 },
+          { id: 'pb-c1', name: 'Flexão archer',           detail: 'ou wide', sets: 3, reps: '5-8 cada', rest: 75, progression: 'Flexão' },
+          { id: 'pb-c2', name: 'Dips',                     detail: 'paralela', sets: 3, reps: '8-12', rest: 75, progression: 'Dips' },
           { id: 'pb-c3', name: 'Pseudo planche push-up',   detail: '', sets: 3, reps: '5-8', rest: 60 },
         ]
       },
@@ -206,14 +206,14 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'plb-s2', name: 'Muscle-up transition',        detail: 'barra baixa', sets: 2, reps: '5', rest: 45 },
+          { id: 'plb-s2', name: 'Muscle-up transition',        detail: 'barra baixa', sets: 2, reps: '5', rest: 45, progression: 'Pull-up' },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'plb-c1', name: 'Pull-up',          detail: 'pronada', sets: 3, reps: '5-10', rest: 90 },
+          { id: 'plb-c1', name: 'Pull-up',          detail: 'pronada', sets: 3, reps: '5-10', rest: 90, progression: 'Pull-up' },
           { id: 'plb-c2', name: 'Australian row',    detail: 'pés elevados', sets: 3, reps: '8-12', rest: 60 },
           { id: 'plb-c3', name: 'Comando pull-up',   detail: 'ou typewriter', sets: 3, reps: '4-6 cada', rest: 75 },
         ]
@@ -241,7 +241,7 @@ export const WORKOUTS = [
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'lb-s1', name: 'L-sit', detail: 'paralela ou chão', sets: 2, reps: '15-25s', rest: 45 },
+          { id: 'lb-s1', name: 'L-sit', detail: 'paralela ou chão', sets: 2, reps: '15-25s', rest: 45, progression: 'L-sit' },
         ]
       },
       {

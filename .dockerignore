@@ -8,4 +8,3 @@ dist
 .env.*
 Dockerfile
 docker-compose.yml
-nginx.conf

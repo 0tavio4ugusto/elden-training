@@ -54,23 +54,22 @@ export const WORKOUTS = [
     subtitle: 'Peito • Ombro • Tríceps',
     day: 'Segunda',
     dayNum: 1,
-    time: '~50 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pa-s1', name: 'Parada de mão na parede', detail: 'barriga virada', sets: 3, reps: '20-30s', rest: 60 },
+          { id: 'pa-s1', name: 'Parada de mão na parede', detail: 'barriga virada', sets: 2, reps: '20-30s', rest: 45 },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pa-c1', name: 'Flexão',           detail: 'ver progressão', sets: 4, reps: '8-12', rest: 90 },
-          { id: 'pa-c2', name: 'Dips',              detail: 'paralela ou banco', sets: 3, reps: '6-10', rest: 90 },
-          { id: 'pa-c3', name: 'Pike push-up',      detail: 'ombro', sets: 3, reps: '6-10', rest: 60 },
-          { id: 'pa-c4', name: 'Flexão diamante',   detail: '', sets: 3, reps: 'max', rest: 60 },
+          { id: 'pa-c1', name: 'Flexão',           detail: 'ver progressão', sets: 3, reps: '8-12', rest: 60 },
+          { id: 'pa-c2', name: 'Dips',              detail: 'paralela ou banco', sets: 3, reps: '6-10', rest: 60 },
+          { id: 'pa-c3', name: 'Pike push-up',      detail: 'ombro', sets: 3, reps: '6-10', rest: 45 },
         ]
       },
       {
@@ -78,7 +77,6 @@ export const WORKOUTS = [
         icon: '🏋️',
         exercises: [
           { id: 'pa-w1', name: 'Elevação lateral', detail: 'halteres', sets: 3, reps: '12-15', rest: 45 },
-          { id: 'pa-w2', name: 'Tríceps corda',    detail: 'polia', sets: 3, reps: '12-15', rest: 45 },
         ]
       }
     ]
@@ -91,31 +89,28 @@ export const WORKOUTS = [
     subtitle: 'Costas • Bíceps',
     day: 'Terça',
     dayNum: 2,
-    time: '~50 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pla-s1', name: 'Hang ativo',      detail: 'barra', sets: 3, reps: '20-30s', rest: 45 },
-          { id: 'pla-s2', name: 'Scapular pulls',  detail: '', sets: 2, reps: '8-10', rest: 45 },
+          { id: 'pla-s1', name: 'Hang ativo',      detail: 'barra', sets: 2, reps: '20-30s', rest: 45 },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pla-c1', name: 'Pull-up',          detail: 'ver progressão', sets: 4, reps: '4-8', rest: 120 },
+          { id: 'pla-c1', name: 'Pull-up',          detail: 'ver progressão', sets: 3, reps: '4-8', rest: 90 },
           { id: 'pla-c2', name: 'Remada invertida',  detail: 'Australian row', sets: 3, reps: '8-12', rest: 60 },
-          { id: 'pla-c3', name: 'Chin-up',           detail: 'supinada', sets: 3, reps: 'max', rest: 90 },
+          { id: 'pla-c3', name: 'Chin-up',           detail: 'supinada', sets: 3, reps: 'max', rest: 60 },
         ]
       },
       {
         title: 'Musculação',
         icon: '🏋️',
         exercises: [
-          { id: 'pla-w1', name: 'Remada curvada', detail: 'barra', sets: 3, reps: '8-12', rest: 60 },
-          { id: 'pla-w2', name: 'Face pull',      detail: 'polia', sets: 3, reps: '15-20', rest: 45 },
           { id: 'pla-w3', name: 'Rosca direta',   detail: 'barra EZ', sets: 3, reps: '10-12', rest: 45 },
         ]
       }
@@ -129,13 +124,13 @@ export const WORKOUTS = [
     subtitle: 'Pernas • Core',
     day: 'Quarta',
     dayNum: 3,
-    time: '~55 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'la-s1', name: 'L-sit', detail: 'tucked no chão', sets: 3, reps: '10-20s', rest: 45 },
+          { id: 'la-s1', name: 'L-sit', detail: 'tucked no chão', sets: 2, reps: '10-20s', rest: 45 },
         ]
       },
       {
@@ -144,16 +139,13 @@ export const WORKOUTS = [
         exercises: [
           { id: 'la-c1', name: 'Pistol squat progressão', detail: 'com apoio', sets: 3, reps: '5-8 cada', rest: 60 },
           { id: 'la-c2', name: 'Agachamento búlgaro',     detail: 'peso corporal', sets: 3, reps: '8-12 cada', rest: 60 },
-          { id: 'la-c3', name: 'Nordic curl negativa',     detail: '', sets: 3, reps: '4-6', rest: 60 },
         ]
       },
       {
         title: 'Musculação',
         icon: '🏋️',
         exercises: [
-          { id: 'la-w1', name: 'Agachamento livre',  detail: 'barra', sets: 3, reps: '8-12', rest: 90 },
-          { id: 'la-w2', name: 'Stiff',              detail: 'barra', sets: 3, reps: '10-12', rest: 60 },
-          { id: 'la-w3', name: 'Panturrilha em pé',  detail: 'máquina', sets: 3, reps: '15-20', rest: 45 },
+          { id: 'la-w1', name: 'Agachamento livre',  detail: 'barra', sets: 3, reps: '8-12', rest: 75 },
         ]
       },
       {
@@ -161,7 +153,6 @@ export const WORKOUTS = [
         icon: '🔥',
         exercises: [
           { id: 'la-co1', name: 'Hollow body hold', detail: '', sets: 3, reps: '20-30s', rest: 30 },
-          { id: 'la-co2', name: 'Prancha',           detail: '', sets: 2, reps: '30-45s', rest: 30 },
         ]
       }
     ]
@@ -174,24 +165,22 @@ export const WORKOUTS = [
     subtitle: 'Peito • Ombro • Tríceps',
     day: 'Quinta',
     dayNum: 4,
-    time: '~50 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'pb-s1', name: 'Parada de mão na parede', detail: 'costas virada', sets: 3, reps: '15-25s', rest: 60 },
-          { id: 'pb-s2', name: 'Crow pose',               detail: 'tentativas', sets: 2, reps: '10-15s', rest: 45 },
+          { id: 'pb-s1', name: 'Parada de mão na parede', detail: 'costas virada', sets: 2, reps: '15-25s', rest: 45 },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'pb-c1', name: 'Flexão archer',           detail: 'ou wide', sets: 4, reps: '5-8 cada', rest: 90 },
-          { id: 'pb-c2', name: 'Dips',                     detail: 'paralela', sets: 3, reps: '8-12', rest: 90 },
-          { id: 'pb-c3', name: 'Hindu push-up',            detail: '', sets: 3, reps: '8-12', rest: 60 },
-          { id: 'pb-c4', name: 'Pseudo planche push-up',   detail: '', sets: 3, reps: '5-8', rest: 60 },
+          { id: 'pb-c1', name: 'Flexão archer',           detail: 'ou wide', sets: 3, reps: '5-8 cada', rest: 75 },
+          { id: 'pb-c2', name: 'Dips',                     detail: 'paralela', sets: 3, reps: '8-12', rest: 75 },
+          { id: 'pb-c3', name: 'Pseudo planche push-up',   detail: '', sets: 3, reps: '5-8', rest: 60 },
         ]
       },
       {
@@ -199,7 +188,6 @@ export const WORKOUTS = [
         icon: '🏋️',
         exercises: [
           { id: 'pb-w1', name: 'Elevação lateral',  detail: 'cabo', sets: 3, reps: '12-15', rest: 45 },
-          { id: 'pb-w2', name: 'Tríceps francês',   detail: 'halter', sets: 3, reps: '10-12', rest: 45 },
         ]
       }
     ]
@@ -212,13 +200,12 @@ export const WORKOUTS = [
     subtitle: 'Costas • Bíceps',
     day: 'Sexta',
     dayNum: 5,
-    time: '~50 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'plb-s1', name: 'Hang ativo + scapular pulls', detail: '', sets: 3, reps: '20s + 5', rest: 45 },
           { id: 'plb-s2', name: 'Muscle-up transition',        detail: 'barra baixa', sets: 2, reps: '5', rest: 45 },
         ]
       },
@@ -226,17 +213,15 @@ export const WORKOUTS = [
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'plb-c1', name: 'Pull-up',          detail: 'pronada', sets: 4, reps: '5-10', rest: 120 },
+          { id: 'plb-c1', name: 'Pull-up',          detail: 'pronada', sets: 3, reps: '5-10', rest: 90 },
           { id: 'plb-c2', name: 'Australian row',    detail: 'pés elevados', sets: 3, reps: '8-12', rest: 60 },
-          { id: 'plb-c3', name: 'Comando pull-up',   detail: 'ou typewriter', sets: 3, reps: '4-6 cada', rest: 90 },
+          { id: 'plb-c3', name: 'Comando pull-up',   detail: 'ou typewriter', sets: 3, reps: '4-6 cada', rest: 75 },
         ]
       },
       {
         title: 'Musculação',
         icon: '🏋️',
         exercises: [
-          { id: 'plb-w1', name: 'Remada cavalinho', detail: 'máquina', sets: 3, reps: '10-12', rest: 60 },
-          { id: 'plb-w2', name: 'Face pull',        detail: '', sets: 3, reps: '15-20', rest: 45 },
           { id: 'plb-w3', name: 'Rosca martelo',    detail: '', sets: 3, reps: '10-12', rest: 45 },
         ]
       }
@@ -250,31 +235,22 @@ export const WORKOUTS = [
     subtitle: 'Pernas • Core',
     day: 'Sábado',
     dayNum: 6,
-    time: '~55 min',
+    time: '35-40 min',
     sections: [
       {
         title: 'Skill Work',
         icon: '⭐',
         exercises: [
-          { id: 'lb-s1', name: 'L-sit', detail: 'paralela ou chão', sets: 3, reps: '15-25s', rest: 45 },
+          { id: 'lb-s1', name: 'L-sit', detail: 'paralela ou chão', sets: 2, reps: '15-25s', rest: 45 },
         ]
       },
       {
         title: 'Calistenia',
         icon: '💎',
         exercises: [
-          { id: 'lb-c1', name: 'Squat jump',             detail: '', sets: 3, reps: '10-12', rest: 60 },
+          { id: 'lb-c1', name: 'Squat jump',             detail: '', sets: 3, reps: '10-12', rest: 45 },
           { id: 'lb-c2', name: 'Step-up alto',            detail: 'banco', sets: 3, reps: '8-12 cada', rest: 60 },
-          { id: 'lb-c3', name: 'Glute bridge unilateral', detail: '', sets: 3, reps: '12-15 cada', rest: 45 },
           { id: 'lb-c4', name: 'Nordic curl negativa',    detail: '', sets: 3, reps: '4-6', rest: 60 },
-        ]
-      },
-      {
-        title: 'Musculação',
-        icon: '🏋️',
-        exercises: [
-          { id: 'lb-w1', name: 'Leg press 45°',       detail: '', sets: 3, reps: '10-12', rest: 90 },
-          { id: 'lb-w2', name: 'Panturrilha sentado',  detail: '', sets: 3, reps: '15-20', rest: 45 },
         ]
       },
       {
@@ -282,7 +258,6 @@ export const WORKOUTS = [
         icon: '🔥',
         exercises: [
           { id: 'lb-co1', name: 'Dragon flag negativa', detail: '', sets: 3, reps: '3-5', rest: 45 },
-          { id: 'lb-co2', name: 'Dead bug',             detail: '', sets: 2, reps: '10 cada', rest: 30 },
         ]
       }
     ]

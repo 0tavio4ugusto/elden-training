@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.*
+*.local
+.vscode
+.system_generated
+task.md
+walkthrough.md
+implementation_plan.md
+deploy_guide.md

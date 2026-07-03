@@ -1,0 +1,10 @@
+services:
+  elden-training:
+    build: .
+    container_name: elden-training
+    ports:
+      - "${PORT:-3000}:80"
+    restart: unless-stopped
+    labels:
+      - "app=elden-training"
+      - "version=1.0"

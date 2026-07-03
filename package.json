@@ -1,0 +1,15 @@
+{
+  "name": "elden-training",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Treino gamificado Dark Fantasy — Calistenia + Musculação RPG",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite --host"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

@@ -30,6 +30,7 @@ function init() {
   if (todayIndex !== null) selectedWorkoutIndex = todayIndex;
 
   document.getElementById('app').addEventListener('click', handleClick);
+  document.getElementById('app').addEventListener('change', handleChange);
   render();
 }
 
@@ -70,6 +71,27 @@ function toLocalDateStr(date) {
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
+}
+
+function getScaledReps(repsStr, difficulty) {
+  if (repsStr === 'max') return 'max';
+  
+  // Multiplicador: Nível 5 é padrão (1.00)
+  // Cada nível ajusta 15% (Nível 1 = 40%, Nível 10 = 175%)
+  const mult = 0.4 + (difficulty - 1) * 0.15;
+  
+  const isSeconds = repsStr.endsWith('s');
+  const cleanStr = isSeconds ? repsStr.slice(0, -1) : repsStr;
+  
+  if (cleanStr.includes('-')) {
+    const parts = cleanStr.split('-');
+    const minVal = Math.max(1, Math.round(parseInt(parts[0]) * mult));
+    const maxVal = Math.max(minVal, Math.round(parseInt(parts[1]) * mult));
+    return `${minVal}-${maxVal}${isSeconds ? 's' : ''}`;
+  } else {
+    const val = Math.max(1, Math.round(parseInt(cleanStr) * mult));
+    return `${val}${isSeconds ? 's' : ''}`;
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -151,6 +173,20 @@ function renderDashboard() {
         <div class="stat-item ornate-card"><span class="stat-icon">⚔️</span><span class="stat-value">${stats.totalWorkouts}</span><span class="stat-label">Treinos</span></div>
         <div class="stat-item ornate-card"><span class="stat-icon">🔮</span><span class="stat-value">${stats.runes}</span><span class="stat-label">Runas</span></div>
         <div class="stat-item ornate-card"><span class="stat-icon">🏆</span><span class="stat-value">${stats.bestStreak}</span><span class="stat-label">Record</span></div>
+      </div>
+
+      <div class="difficulty-section ornate-card">
+        <div class="diff-header">
+          <span class="diff-icon">🛡️</span>
+          <span class="diff-title">Dificuldade da Forja</span>
+        </div>
+        <select class="diff-select" data-action="change-difficulty">
+          ${[...Array(10).keys()].map(i => {
+            const val = i + 1;
+            const label = val === 5 ? 'Padrão' : val < 5 ? 'Mais Fácil' : 'Mais Difícil';
+            return `<option value="${val}" ${stats.difficulty === val ? 'selected' : ''}>Nível ${val} (${label})</option>`;
+          }).join('')}
+        </select>
       </div>
 
       <div class="quote-section ornate-card">
@@ -261,6 +297,8 @@ function renderWorkout() {
 
     for (const ex of section.exercises) {
       const isDone = game.isExerciseDone(workout.id, ex.id, ex.sets);
+      const difficulty = game.getDifficulty();
+      const scaledReps = getScaledReps(ex.reps, difficulty);
       html += `<div class="exercise-card ornate-card ${isDone ? 'done' : ''}" id="ex-${ex.id}">
         <div class="exercise-top">
           <div>
@@ -268,7 +306,7 @@ function renderWorkout() {
             ${ex.detail ? `<div class="exercise-detail">${ex.detail}</div>` : ''}
           </div>
           <div class="exercise-meta">
-            <div class="exercise-reps">${ex.sets}×${ex.reps}</div>
+            <div class="exercise-reps">${ex.sets}×${scaledReps}</div>
             <div class="exercise-rest">⏱ ${ex.rest}s</div>
           </div>
         </div>
@@ -562,21 +600,29 @@ function handleClick(e) {
     }
 
     case 'complete-workout': {
-      const wid = target.dataset.workoutId;
-      if (game.isWorkoutCompletedToday(wid)) return;
+      const workout = WORKOUTS[selectedWorkoutIndex];
+      if (game.isWorkoutCompletedToday(workout.id)) return;
 
-      const result = game.completeWorkout(wid);
+      const result = game.completeWorkout(workout);
 
       // Haptic
-      if (navigator.vibrate) navigator.vibrate([50, 30, 50, 30, 100]);
+      if (navigator.vibrate) {
+        if (result.tacticalRetreat) {
+          navigator.vibrate([100, 100, 100]); // slow vibrations for retreat
+        } else {
+          navigator.vibrate([50, 30, 50, 30, 100]);
+        }
+      }
 
       // Stop timer
       stopTimer();
 
-      // Show confetti
-      showConfetti();
+      // Show confetti only on full completion
+      if (!result.tacticalRetreat) {
+        showConfetti();
+      }
 
-      // Show completion overlay
+      // Show completion/retreat overlay
       showWorkoutComplete(result);
 
       // Show achievement toasts
@@ -635,6 +681,19 @@ function handleClick(e) {
       document.querySelector('.reset-modal')?.remove();
       break;
     }
+  }
+}
+
+function handleChange(e) {
+  const target = e.target.closest('[data-action]');
+  if (!target) return;
+
+  const action = target.dataset.action;
+
+  if (action === 'change-difficulty') {
+    game.setDifficulty(target.value);
+    if (navigator.vibrate) navigator.vibrate(20);
+    render();
   }
 }
 
@@ -782,16 +841,34 @@ function showWorkoutComplete(result) {
 
   const overlay = document.createElement('div');
   overlay.className = 'complete-overlay';
-  overlay.innerHTML = `
-    <div class="complete-icon">⚔️</div>
-    <div class="complete-title">TREINO COMPLETO</div>
-    <div class="complete-stats">
-      <div class="complete-stat">XP Ganho: <strong>+${result.xpGained}</strong></div>
-      ${result.streakBonus > 0 ? `<div class="complete-stat">Bônus Streak: <strong>+${result.streakBonus}</strong></div>` : ''}
-      <div class="complete-stat">Runas: <strong>+${result.runesGained} 🔮</strong></div>
-      <div class="complete-stat">Streak: <strong>${stats.currentStreak} dias 🔥</strong></div>
-    </div>
-    <div class="complete-dismiss">toque para continuar</div>`;
+  
+  if (result.tacticalRetreat) {
+    const pct = Math.round(result.completedPct * 100);
+    overlay.innerHTML = `
+      <div class="complete-icon" style="filter: hue-rotate(320deg);">🛡️</div>
+      <div class="complete-title" style="color: var(--red); text-shadow: 0 0 20px rgba(196,64,64,0.4);">RETIRADA TÁTICA</div>
+      <p class="retreat-warning-desc" style="font-size:0.75rem; color: var(--text-secondary); text-align:center; max-width:280px; margin:-10px 0 16px; line-height:1.4;">
+        Você recuou com <strong>${pct}%</strong> do treino concluído.<br>
+        Punição: -50% de XP e sem runas.
+      </p>
+      <div class="complete-stats">
+        <div class="complete-stat">XP Ganho: <strong style="color: var(--gold);">+${result.xpGained}</strong></div>
+        <div class="complete-stat">Runas Ganhas: <strong>0 🔮</strong></div>
+        <div class="complete-stat" style="color: var(--green);">Streak Mantido: <strong>${stats.currentStreak} dias 🔥</strong></div>
+      </div>
+      <div class="complete-dismiss">toque para continuar</div>`;
+  } else {
+    overlay.innerHTML = `
+      <div class="complete-icon">⚔️</div>
+      <div class="complete-title">TREINO COMPLETO</div>
+      <div class="complete-stats">
+        <div class="complete-stat">XP Ganho: <strong>+${result.xpGained}</strong></div>
+        ${result.streakBonus > 0 ? `<div class="complete-stat">Bônus Streak: <strong>+${result.streakBonus}</strong></div>` : ''}
+        <div class="complete-stat">Runas: <strong>+${result.runesGained} 🔮</strong></div>
+        <div class="complete-stat">Streak: <strong>${stats.currentStreak} dias 🔥</strong></div>
+      </div>
+      <div class="complete-dismiss">toque para continuar</div>`;
+  }
 
   document.body.appendChild(overlay);
 

@@ -31,6 +31,7 @@ export class GameEngine {
         // Migrate old saves: add new fields if missing
         if (parsed.runes === undefined) parsed.runes = 0;
         if (parsed.progressionLevels === undefined) parsed.progressionLevels = {};
+        if (parsed.difficulty === undefined) parsed.difficulty = 5;
         return parsed;
       }
     } catch (e) { /* ignore */ }
@@ -50,6 +51,7 @@ export class GameEngine {
       todayProgress: {},           // { [workoutId]: { [exerciseId]: [bool, bool, ...] } }
       _lastProgressDate: null,
       progressionLevels: {},       // { [progressionName]: stepIndex }
+      difficulty: 5,               // 1 to 10
     };
   }
 
@@ -143,15 +145,21 @@ export class GameEngine {
   }
 
   // ── Workout Completion ──
-  completeWorkout(workoutId) {
+  completeWorkout(workout) {
     const today = this._today();
+    const workoutId = workout.id;
 
     const alreadyDone = this.state.completedWorkouts.some(
       w => w.date === today && w.workoutId === workoutId
     );
-    if (alreadyDone) return { xpGained: 0, leveledUp: false, newAchievements: [], streakBonus: 0, runesGained: 0 };
+    if (alreadyDone) return { xpGained: 0, leveledUp: false, newAchievements: [], streakBonus: 0, runesGained: 0, tacticalRetreat: false };
 
-    // Streak logic
+    // Calculate completion percentage
+    const progress = this.getWorkoutProgress(workout);
+    const isComplete = progress.doneSets >= progress.totalSets;
+    const completedPct = progress.doneSets / progress.totalSets;
+
+    // Streak logic (Preserved/incremented even if incomplete!)
     const yesterday = this._dateOffset(-1);
     if (this.state.lastWorkoutDate === yesterday || this.state.lastWorkoutDate === today) {
       if (this.state.lastWorkoutDate !== today) this.state.currentStreak++;
@@ -163,25 +171,36 @@ export class GameEngine {
     }
     this.state.lastWorkoutDate = today;
 
-    // XP Bonus
-    const streakBonus = Math.min(this.state.currentStreak, MAX_STREAK_BONUS) * XP_STREAK_PER_DAY;
-    const totalBonus = XP_WORKOUT_BONUS + streakBonus;
-    this.state.totalXP += totalBonus;
+    let xpGained = 0;
+    let runesGained = 0;
+    let streakBonus = 0;
+    let tacticalRetreat = false;
 
-    // Runas: 1 per workout + 1 extra every 5 streak days
-    let runesGained = 1;
-    if (this.state.currentStreak > 0 && this.state.currentStreak % 5 === 0) {
-      runesGained += 1;
+    if (isComplete) {
+      // Full rewards
+      streakBonus = Math.min(this.state.currentStreak, MAX_STREAK_BONUS) * XP_STREAK_PER_DAY;
+      xpGained = XP_WORKOUT_BONUS + streakBonus;
+      runesGained = 1;
+      if (this.state.currentStreak > 0 && this.state.currentStreak % 5 === 0) {
+        runesGained += 1;
+      }
+    } else {
+      // Tactical retreat punishment: no streak bonus, no runes, and 50% penalty on work done
+      tacticalRetreat = true;
+      xpGained = Math.floor(XP_WORKOUT_BONUS * completedPct * 0.5);
+      runesGained = 0;
     }
+
+    this.state.totalXP += xpGained;
     this.state.runes += runesGained;
 
-    this.state.completedWorkouts.push({ date: today, workoutId, xp: totalBonus });
+    this.state.completedWorkouts.push({ date: today, workoutId, xp: xpGained, retreat: tacticalRetreat });
 
     const leveledUp = this._recalculateLevel();
     const newAchievements = this._checkAchievements();
     this.save();
 
-    return { xpGained: totalBonus, leveledUp, newAchievements, streakBonus, runesGained };
+    return { xpGained, leveledUp, newAchievements, streakBonus, runesGained, tacticalRetreat, completedPct };
   }
 
   isWorkoutCompletedToday(workoutId) {
@@ -255,7 +274,17 @@ export class GameEngine {
       bestStreak: this.state.bestStreak,
       totalWorkouts: this.state.completedWorkouts.length,
       unlockedAchievements: [...this.state.unlockedAchievements],
+      difficulty: this.state.difficulty || 5,
     };
+  }
+
+  getDifficulty() {
+    return this.state.difficulty || 5;
+  }
+
+  setDifficulty(level) {
+    this.state.difficulty = Math.max(1, Math.min(10, parseInt(level)));
+    this.save();
   }
 
   getCalendarData() {

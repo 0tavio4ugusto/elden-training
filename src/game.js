@@ -56,7 +56,51 @@ export class GameEngine {
   }
 
   save() {
+    this.saveLocalOnly();
+    this.saveServerOnly();
+  }
+
+  saveLocalOnly() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+  }
+
+  async saveServerOnly() {
+    try {
+      await fetch('/api/state', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+      },
+        body: JSON.stringify(this.state)
+      });
+    } catch (e) {
+      console.warn('Failed to save to server:', e);
+    }
+  }
+
+  async syncWithServer(onSyncComplete) {
+    try {
+      const response = await fetch('/api/state');
+      if (response.ok) {
+        const serverState = await response.json();
+        if (serverState && !serverState.default) {
+          // Compare XP: pick state with highest progression
+          if ((serverState.totalXP || 0) >= (this.state.totalXP || 0)) {
+            this.state = serverState;
+            this.saveLocalOnly();
+            if (onSyncComplete) onSyncComplete();
+          } else {
+            // Local state has higher progress, sync server up to speed
+            await this.saveServerOnly();
+          }
+        } else {
+          // Server database has no state, upload local state
+          await this.saveServerOnly();
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to sync with server:', e);
+    }
   }
 
   // ── XP & Level Calculations ──

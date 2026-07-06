@@ -32,6 +32,9 @@ function init() {
   document.getElementById('app').addEventListener('click', handleClick);
   document.getElementById('app').addEventListener('change', handleChange);
   render();
+
+  // Async server-side database sync
+  game.syncWithServer(render);
 }
 
 // ═══════════════════════════════════════════
